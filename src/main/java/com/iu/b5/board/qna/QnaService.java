@@ -20,6 +20,13 @@ public class QnaService implements BoardService {
 	@Override
 	public int setInsert(BoardVO boardVO,  MultipartFile [] files) throws Exception {
 		
+		
+		int result = qnaMapper.setInsert(boardVO);
+		
+		result = qnaMapper.setRefUpdate(boardVO);
+		
+		//나머지 noticeService에서 확인하기
+		
 		return qnaMapper.setInsert(boardVO);
 	}
 

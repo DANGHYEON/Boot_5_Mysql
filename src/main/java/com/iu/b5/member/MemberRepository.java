@@ -5,6 +5,10 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface MemberRepository {
 	
+	
+	//id 중복 확인
+	public MemberVO getSelect(MemberVO memberVO) throws Exception;
+	
 	//login
 	public MemberVO getSelectOne(MemberVO memberVO) throws Exception;
 	

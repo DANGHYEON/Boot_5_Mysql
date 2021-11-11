@@ -2,8 +2,11 @@ package com.iu.b5.board.qna;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,15 +31,25 @@ public class QnaController {
 	
 	
 	@GetMapping("insert")
-	public String setInsert() throws Exception{
+	public String setInsert(@ModelAttribute BoardVO boardVO) throws Exception{
 		
 		return "board/insert";
 		
 	}
 	
 	@PostMapping("insert")
-	public String setInsert(BoardVO boardVO,  MultipartFile [] files) throws Exception {
+	public String setInsert(@Valid BoardVO boardVO, BindingResult bindingResult ,  MultipartFile [] files) throws Exception {
+		
+		if(bindingResult.hasErrors()) {
+			return "board/insrt";
+		}
+		
 		int result = qnaService.setInsert(boardVO, files);
+		
+		if(result>0) {
+			
+		}
+		
 		
 		return "redirect:./selectList";
 	}
@@ -88,6 +101,22 @@ public class QnaController {
 		return mv;
 		
 
+	}
+	
+	@GetMapping("reply")
+	public String reply(@ModelAttribute BoardVO boardVO) throws Exception{
+		return "board/reply";
+		
+	}
+	
+	@PostMapping("reply")
+	public void reply(@Valid BoardVO boardVO, BindingResult bindingResult )throws Exception{
+		
+		if(bindingResult.hasErrors()) {
+			
+			
+		}
+		
 	}
 	
 	

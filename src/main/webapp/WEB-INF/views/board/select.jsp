@@ -24,5 +24,10 @@
 	<br>
 	<a href="./delete?num=${boardVO.num}">delete</a>
 	<a href="./update?num=${boardVO.num}">update</a>
+	
+	<c:if test="${board ne notice}">
+		<a href="./reply">Reply</a>
+	</c:if>
+	
 </body>
 </html>

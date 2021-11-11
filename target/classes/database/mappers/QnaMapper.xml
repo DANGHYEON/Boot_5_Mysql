@@ -5,9 +5,16 @@
   
   
   <mapper namespace="com.iu.b5.board.qna.QnaMapper">
+  
+  	
+  	<insert id="setRefUpdate" parameterType="BoardVO">
+  		update qna set ref=#{num} where num=#{num} 
+  	</insert>
+  
+  
   	<insert id="setInsert" parameterType="BoardVO" useGeneratedKeys="true" keyProperty="num">
  		 	insert into qna (num, title, contents, writer, hit, regDate, ref, step, depth)
-			values (#{num},#{title},#{contents},#{writer},0, now(),0,0,0)
+			values (#{num},#{title},#{contents},#{writer},0, now(), #{num},0,0)
   	</insert>
   	
   	<update id="setUpdate" parameterType="BoardVO">
@@ -34,7 +41,7 @@
   				<otherwise>title</otherwise>
   			</choose>
   		like concat('%',#{search},'%')  
-		order by num desc
+		order by ref desc, step asc
 		limit 0, 10
   	
   	</select>
