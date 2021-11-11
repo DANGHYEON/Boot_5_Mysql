@@ -20,7 +20,7 @@ class MemberRepositoryTest {
 		MemberVO memberVO = new MemberVO();
 		memberVO.setId("user");
 		memberVO.setPw("user");
-		memberVO = memberRepositoryTest.getSelectOne(memberVO);
+		//memberVO = memberRepositoryTest.getSelectOne(memberVO);
 		
 		assertNotNull(memberVO);
 	}

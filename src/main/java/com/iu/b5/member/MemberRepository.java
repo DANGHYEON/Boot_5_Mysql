@@ -10,7 +10,7 @@ public interface MemberRepository {
 	public MemberVO getSelect(MemberVO memberVO) throws Exception;
 	
 	//login
-	public MemberVO getSelectOne(MemberVO memberVO) throws Exception;
+	public MemberVO getSelectOne(String username) throws Exception;
 	
 	// 회원가입
 	public int setInsert(MemberVO memberVO)throws Exception;

@@ -11,6 +11,7 @@
   		<typeAlias type="com.iu.b5.board.qna.QnaVO" alias="QnaVO"/>
   		<typeAlias type="com.iu.b5.member.MemberVO" alias="MemberVO"/>
   		<typeAlias type="com.iu.b5.member.MemberFilesVO" alias="MemberFileVO"/>
+  		<typeAlias type="com.iu.b5.member.RoleVO" alias="RoleVO"/>
   		<typeAlias type="com.iu.b5.util.Pager" alias="Pager" />
   		<typeAlias type="java.lang.Long" alias="Long"/>
   		<typeAlias type="java.util.List" alias="List"/>

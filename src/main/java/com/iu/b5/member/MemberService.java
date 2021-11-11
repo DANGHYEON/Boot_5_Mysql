@@ -1,6 +1,11 @@
 package com.iu.b5.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -10,12 +15,15 @@ import com.iu.b5.util.FileManager;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class MemberService {
+public class MemberService implements UserDetailsService {
 	
 	@Autowired
 	private MemberRepository memberRepository;
 	@Autowired
 	private FileManager fileManager;
+	@Autowired
+	private PasswordEncoder bCryptpasswordEncoder;
+	
 	
 	//검증 메서드 선언
 	public boolean memberError(MemberVO memberVO, BindingResult bindingResult) throws Exception{
@@ -46,17 +54,22 @@ public class MemberService {
 	}
 	
 	
-	public MemberVO getSelectOne(MemberVO memberVO) throws Exception{
-		return memberRepository.getSelectOne(memberVO);
-	}
-	
+	/*
+	 * public MemberVO getSelectOne(MemberVO memberVO) throws Exception{ return
+	 * memberRepository.getSelectOne(memberVO); }
+	 */
 	
 
 	public int setInsert(MemberVO memberVO, MultipartFile files) throws Exception{
+		
+		memberVO.setPw(bCryptpasswordEncoder.encode(memberVO.getPw()));
+		memberVO.setEnabled(true);
+		
+		
 		int result	= memberRepository.setInsert(memberVO);
 		
 		//or files.size()>0
-		if(!files.isEmpty()) {
+		if(files != null && !files.isEmpty()) {
 		
 		
 		String fileName = fileManager.getUseServletContext("/upload/member", files);
@@ -78,6 +91,25 @@ public class MemberService {
 		return result;
 		
 		
+	}
+	
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		// TODO Auto-generated method stub
+		System.out.println("Load User By UserName");
+		System.out.println(username);
+		MemberVO memberVO=null;
+		try {
+			memberVO = memberRepository.getSelectOne(username);
+				
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Spring security가 UserDetails리턴 받아서 비번을 비교
+		return memberVO;
 	}
 
 }

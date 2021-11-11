@@ -4,6 +4,9 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/member/**")
-public class MemberController {
+public class MemberController{
 	
 	@Autowired
 	private MemberService memberService;
@@ -30,14 +33,15 @@ public class MemberController {
 	
 	@GetMapping("memberLogin")
 	public String getSelectOne()throws Exception{
+		System.out.println("member Login");
 		
 		return "member/memberLogin";
 	}
 	
 	@PostMapping("memberLogin")
 	public String getSelectOne(MemberVO memberVO, HttpSession httpSession)throws Exception{
-		
-		memberVO = memberService.getSelectOne(memberVO);
+		System.out.println("Member Login Process");
+		//memberVO = memberService.getSelectOne(memberVO);
 		
 		if(memberVO != null) {
 			httpSession.setAttribute("member", memberVO);
@@ -61,11 +65,15 @@ public class MemberController {
 			return "member/memberJoin";
 		}
 		
-		//int result = memberService.setInsert(memberVO, files);
+		int result = memberService.setInsert(memberVO, files);
 		
 		return "redirect:../";
 		
 	}
+	
+	
+
+	
 	
 
 }
